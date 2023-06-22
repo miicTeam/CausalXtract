@@ -1,0 +1,101 @@
+---
+title: "CausalXtract Demo"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. \
+When you execute code within the notebook, the results appear beneath the code. \
+\
+This demo reproduces the pipeline described in the CausalXtract publication. \
+\
+Before executing this demo, please ensure that the following prerequisites are met: \
+- Matlab is installed (needed for the cell feature module) \
+\ \ Note that you can skip the cell feature part if you don't have Matlab \
+- R and C++14 are installed (needed for the causal discovery module) \
+- the CausalXtract github repository has been replicated locally \
+- the image sequences from "http://???" \
+\ \ have been downloaded in \
+  ??? the demo folder ??? \
+  ??? an "ImagesSequences" subfolder inside the "Demo" folder ??? \
+  ??? an "ImagesSequences" folder next to the "Demo" folder ??? \
+\
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*.\ 
+
+```{r}
+cat ("CausalXtract Demo\n")
+```
+
+Prerequisites check:
+
+```{r}
+if ( ! (  dir.exists ("../CellHunterPlus")
+       && dir.exists ("../Demo")
+       && dir.exists ("../tMIIC") ) ) 
+  stop ("CausalXtract repository not found")
+# if ( ! dir.exists ("./???") )
+#  stop ("Sequences of images not found")
+cat ("Prerequisites checked\n")
+```
+
+We ensure that the causal discovery module (tMIIC) is installed with the needed
+R packages:
+
+```{r}
+# Check and install if needed the R packages used by tMIIC
+if ( ! ("ppcor" %in% installed.packages()) )
+  install.packages ("ppcor") 
+if ( ! ("Rcpp" %in% installed.packages()) )
+  install.packages ("Rcpp") 
+if ( ! ("scales" %in% installed.packages()) )
+  install.packages ("scales") 
+if ( ! ("stats" %in% installed.packages()) )
+  install.packages ("stats") 
+# Check and install tMIIC
+if  (  ( ! ("miic" %in% installed.packages()) )
+    || (packageVersion("miic") < "2.0.0") ) 
+  install.packages ("miic", repos="./tMIIC") 
+cat ("End of R packages check/installation\n")
+```
+
+Here, we execute the cell feature module to perform segmentation & tracking, followed by the feature extraction. \
+(could take some time depending on your hardware !) \
+You can skip this part if you don't have Matlab. \
+
+```{r}
+# +load(matlab))
+# library(matlab)
+# https://www.youtube.com/watch?v=QcodKT82Rtw
+# MATLAB COMMANDS
+# cat ("Cell feature module\n")
+```
+
+Once the features have been extracted, we can run the temporal causal discovery \
+(again, this could take some time depending on your hardware !)
+
+```{r}
+library (miic)
+data <- read.table ("./CausalXtract_Publication_Dataset.tsv", 
+                    sep="\t", header=T)
+so <- read.table ("./CausalXtract_publication_State_Order.tsv", 
+                    sep="\t", header=T)
+# res <- miic (input_data=data, state_order=so, tau=11, delta_tau=5,
+#              latent="orientation", n_shuffles = 100, conf_threshold=0.01,
+#              ori_proba_ratio=0.01, n_threads=8)
+res <- miic (covidCases, tau=2, movavg=7, n_threads=8)
+```
+
+Plotting is available with several displays:
+
+```{r}
+if  ( ! ("igraph" %in% installed.packages()) )
+  install.packages ("igraph") 
+plot (res)
+plot (res, display="raw")
+plot (res, display="lagged")
+```
+
+An alternate way to execute the causal discovery module is to use the online server
+at <https://miic.curie.fr/workbench_timeseries.php>, providing the same parameters
+and inputs: dataset file, state_order file, tau=11, delta_tau=5, activate the
+skeleton cut with number of shufflings=100 + confidence cut=0.01 and orientation
+confidence cut=0.01.
