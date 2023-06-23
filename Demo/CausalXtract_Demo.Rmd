@@ -9,15 +9,13 @@ When you execute code within the notebook, the results appear beneath the code. 
 This demo reproduces the pipeline described in the CausalXtract publication. \
 \
 Before executing this demo, please ensure that the following prerequisites are met: \
-- Matlab is installed (needed for the cell feature module) \
-\ \ Note that you can skip the cell feature part if you don't have Matlab \
+- Matlab is installed (needed for the CellHunterPlus module) \
+\ \ Note that you can skip the CellHunterPlus part if you don't have Matlab \
 - R and C++14 are installed (needed for the causal discovery module) \
 - the CausalXtract github repository has been replicated locally \
-- the image sequences from "http://???" \
-\ \ have been downloaded in \
-  ??? the demo folder ??? \
-  ??? an "ImagesSequences" subfolder inside the "Demo" folder ??? \
-  ??? an "ImagesSequences" folder next to the "Demo" folder ??? \
+- the "MATLAB DATA.rar" file from "https://doi.org/10.5281/zenodo.7755700"\
+\ \ has been downloaded and extracted \
+  in the CausalXtract repository that has been replicated locally.\
 \
 Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*.\ 
 
@@ -32,8 +30,8 @@ if ( ! (  dir.exists ("../CellHunterPlus")
        && dir.exists ("../Demo")
        && dir.exists ("../tMIIC") ) ) 
   stop ("CausalXtract repository not found")
-# if ( ! dir.exists ("./???") )
-#  stop ("Sequences of images not found")
+if ( ! dir.exists ("../MATLAB DATA") )
+  stop ("MATLAB data not found")
 cat ("Prerequisites checked\n")
 ```
 
@@ -57,16 +55,14 @@ if  (  ( ! ("miic" %in% installed.packages()) )
 cat ("End of R packages check/installation\n")
 ```
 
-Here, we execute the cell feature module to perform segmentation & tracking, followed by the feature extraction. \
+Here, we execute the CellHunterPlus module to perform segmentation & tracking, followed by the feature extraction part. \
 (could take some time depending on your hardware !) \
 You can skip this part if you don't have Matlab. \
 
 ```{r}
-# +load(matlab))
-# library(matlab)
-# https://www.youtube.com/watch?v=QcodKT82Rtw
-# MATLAB COMMANDS
-# cat ("Cell feature module\n")
+cat ("CellHunterPlus module\n")
+system("matlab -r \"run('./CausalXtract_CellHunterPlus_Demo_Part.m'); exit\"")
+
 ```
 
 Once the features have been extracted, we can run the temporal causal discovery \
