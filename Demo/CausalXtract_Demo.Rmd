@@ -3,24 +3,22 @@ title: "CausalXtract Demo"
 output: html_notebook
 ---
 
-This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook.\
-When you execute code within the notebook, the results appear beneath the code.\
-Please make sure you were located in the Demo folder when opening this Causal_Xtract_Demo.Rmd file in order to have the correct working directory.
-
-**This demo reproduces the pipeline described in the CausalXtract publication.**
-
-Before executing this demo, please ensure that the following prerequisites are met:
-
--   **Matlab** is installed with the additional toolboxes **"Image Processing Toolbox"** and **"Statistics and Machine Learning Toolbox"**. (needed for the CellHunterPlus module)\
-    Note that you can skip the CellHunterPlus part if you don't have Matlab\
--   **R** and **C++14** are installed (needed for the causal discovery module)\
--   the **CausalXtract github repository** has been replicated locally\
-    You can replicate the CausalXtract repository with the command\
-    *git clone <https://github.com/miicTeam/CausalXtract.git>*\
--   the **MATLAB DATA.rar** file from [*https://doi.org/10.5281/zenodo.7755700*](https://doi.org/10.5281/zenodo.7755700){.uri} has been downloaded\
-    and extracted in the **CausalXtract/MATLAB DATA** folder
-
-Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*.
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. \
+When you execute code within the notebook, the results appear beneath the code. \
+\
+This demo reproduces the pipeline described in the CausalXtract publication. \
+\
+Before executing this demo, please ensure that the following prerequisites are met: \
+- Matlab R2022b is installed (needed for the CellHunterPlus module) \
+- the Matlab toolboxes "Image Processing Toolbox" and "Statistics and Machine Learning Toolbox" are installed \
+\ \ Note that you can skip the CellHunterPlus part if you don't have Matlab \
+- R and C++14 are installed (needed for the causal discovery module) \
+- the CausalXtract github repository has been replicated locally \
+- the "MATLAB DATA.rar" file from "https://doi.org/10.5281/zenodo.7755700"\
+\ \ has been downloaded and extracted \
+  in the CausalXtract repository that has been replicated locally.\
+\
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*.\ 
 
 ```{r}
 cat ("CausalXtract Demo\n")
@@ -38,7 +36,8 @@ if ( ! dir.exists ("../MATLAB DATA") )
 cat ("Prerequisites checked\n")
 ```
 
-We ensure that the causal discovery module (tMIIC) is installed with the needed R packages:
+We ensure that the causal discovery module (tMIIC) is installed with the needed
+R packages:
 
 ```{r}
 # Check and install if needed the R packages used by tMIIC
@@ -53,13 +52,13 @@ if ( ! ("stats" %in% installed.packages()) )
 # Check and install tMIIC
 if  (  ( ! ("miic" %in% installed.packages()) )
     || (packageVersion("miic") < "2.0.0") ) 
-  install.packages ("../tMIIC", repos=NULL, type="source") 
+  install.packages ("miic", repos="./tMIIC") 
 cat ("End of R packages check/installation\n")
 ```
 
-Here, we execute the CellHunterPlus module to perform segmentation & tracking, followed by the feature extraction part.\
-(could take some time depending on your hardware !)\
-You can skip this part if you don't have Matlab.
+Here, we execute the CellHunterPlus module to perform segmentation & tracking, followed by the feature extraction part. \
+(could take some time depending on your hardware !) \
+You can skip this part if you don't have Matlab. \
 
 ```{r}
 cat ("CellHunterPlus module\n")
@@ -67,7 +66,7 @@ system("matlab -r \"run('./CausalXtract_CellHunterPlus_Demo_Part.m'); exit\"")
 
 ```
 
-Once the features have been extracted, we can run the temporal causal discovery\
+Once the features have been extracted, we can run the temporal causal discovery \
 (again, this could take some time depending on your hardware !)
 
 ```{r}
@@ -92,4 +91,8 @@ plot (res, display="raw")
 plot (res, display="lagged")
 ```
 
-An alternate way to execute the causal discovery module is to use the online server at <https://miic.curie.fr/workbench_timeseries.php>, providing the same parameters and inputs: dataset file, state_order file, tau=11, delta_tau=5, activate the skeleton cut with number of shufflings=100 + confidence cut=0.01 and orientation confidence cut=0.01.
+An alternate way to execute the causal discovery module is to use the online server
+at <https://miic.curie.fr/workbench_timeseries.php>, providing the same parameters
+and inputs: dataset file, state_order file, tau=11, delta_tau=5, activate the
+skeleton cut with number of shufflings=100 + confidence cut=0.01 and orientation
+confidence cut=0.01.
