@@ -11,7 +11,7 @@ Please make sure you were located in the Demo folder when opening this Causal_Xt
 
 Before executing this demo, please ensure that the following prerequisites are met:
 
--   **Matlab** is installed with the additional toolboxes **"Image Processing Toolbox"** and **"Statistics and Machine Learning Toolbox"**. (needed for the CellHunterPlus module)\
+-   **Matlab R2022b** is installed with the additional toolboxes **"Image Processing Toolbox"** and **"Statistics and Machine Learning Toolbox"**. (needed for the CellHunterPlus module)\
     Note that you can skip the CellHunterPlus part if you don't have Matlab\
 -   **R** and **C++14** are installed (needed for the causal discovery module)\
 -   the **CausalXtract github repository** has been replicated locally\
