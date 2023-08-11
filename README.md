@@ -2,9 +2,9 @@
 
 This repository contains the source code for CausalXtract, a flexible pipeline to extract causal effects from live-cell time-lapse imaging data.
 
-CausalXtract is composed of two parts: the cell feature module **CellHunterPlus** and the causal discovery module **tMIIC**:
+CausalXtract is composed of two parts: the cell feature module **CellHunter+** and the causal discovery module **tMIIC**:
 
-* CellHunterPlus is a method that segments cells, tracks them and extracts features. The segmentation is based on CHT (Circular Hough Transform); the tracking is based on the Munkres algorithm. 
+* CellHunter+ is a method that segments cells, tracks them and extracts features. The segmentation is based on CHT (Circular Hough Transform); the tracking is based on the Munkres algorithm. 
 It extends the functionalities of CellHunter (that implements segmentation and tracking) by adding the feature extraction module.
 
 * tMIIC is the temporal version of MIIC (**M**ultivariate **I**nformation based **I**nductive **C**ausation), a method based on constraint-based approaches that learns a large class of causal or non-causal graphical models from purely observational data while including the effects of unobserved latent variables.
@@ -23,7 +23,7 @@ Verny L., Sella N., Affeldt S., Singh PP., Isambert H.; Learning causal networks
 
 ## Prerequisites
 
-CellHunterPlus was written in **MATLAB R2019b**. Additional toolboxes required: **"Image Processing Toolbox"**, **"Statistics and Machine Learning Toolbox"**. The former is needed for both the "segmentation and tracking" module and the "feature extraction" module. The latter is needed only for the "feature extraction" module.
+CellHunter+ was written in **MATLAB R2022b**. Additional toolboxes required: **"Image Processing Toolbox"**, **"Statistics and Machine Learning Toolbox"**. The former is needed for both the "segmentation and tracking" module and the "feature extraction" module. The latter is needed only for the "feature extraction" module. CellHunterPlus+ should work with other versions of MATLAB as well, but beware that the definition of the features extracted could slightly changed. Therefore, the resulting data obtained with CellHunter+ could be slightly different from the data obtained for the article.
 
 As the tMIIC part contains R and C++ sources, you will need **R** and a compiler with support for **C++14** language features. tMIIC imports the following R packages: **ppcor, scales, stats, Rcpp** and, if you use the plotting feature, **igraph**. The R version used to develop tMIIC is the 4.0.5, so any R version equal or above 4.0.5 should be usable.
 
@@ -50,13 +50,28 @@ This R Markdown Notebook file allows you to run the entire pipeline described in
 
 ## Going further
 
-To go further with CellHunterPlus, the main_example.m file shows the results obtained with CellHunterPlus on a given Region of Interest (roi). In the example, the roi is a cropped video, obtained from the original one (insert reference to dataset). The main cancer cell is placed at the centre of the crop and it is possible to observe CAFs, immune cells and other cancer cells. 
-It is possible to change the file path to the specific video’s path that the user wants to analyse.\
-The video of the roi is loaded and written into a matrix where the third dimension represents the time, i.e. the number of frame. 
-The matrix is the input of the "segmentation and tracking" module of CellHunterPlus. In the "feature extraction" module, the trajectories of the main cancer cell and those of the immune cells are used to compute the features of interest.
-Further information is detailed in the Supplementary Information (SI) of the paper.
-
-??? Put something about the CellHunterPlus parameters i.e.: cell sizes ???
+To go further with CellHunter+, "the main_detection.m" file implements the "segmentation and tracking" module. Each ROI (Region of Interest) is a cropped video, obtained from the original video (reference to dataset: https://doi.org/10.5281/zenodo.7755700). The MCC (Main Cancer Cell) is placed at the centre of the crop and it is possible to observe CAFs, immune cells and other cancer cells. 
+It is possible to change the file path to the specific videos' path that the user wants to analyse.\
+The video of the ROI, saved as .mat file, is a matrix where the third dimension represents the time, i.e. the number of frame. 
+The outputs are the trajectories of the MCC and the trajectories of the immune cells.
+An additional step, implemented in the "main_division_detection.m" file, allows to correct the "flickering" of the MCC's trajectory when it divides.
+Finally, the "main_features.m" file implements the "feature extraction" module, in which the trajectories of the MCC and those of the immune cells are used to compute the features of interest for each ROI.
+\
+As the dimensions of your cells will likely different from the ones used in the CausalXtract publication, you may need to modify the parameters in the "parameters_CellHunterPlus.csv" file.
+1. The first parameter, "polarity", must be set to "bright" if bright cells are identified in a dark background. Otherwise, it must be set to "dark".
+Concerning the immune cells, the parameters set are: 
+2. r_sp, the theoretical radius for detecting immune cells; 
+3. Rmax_sp, the maximum distance for tracking immune cells, i.e. for linking two presumed instances of the same immune cell in two different frames to construct the trajectory of that immune cell; 
+4. DP_sp, the number of frames after which the trajectory of an immune cell is stopped if the immune cell is not detected for that specific number of frames;
+5. L_sp, the minimum length of immune cells’ trajectories that are returned as output in the tracking refining process;
+6. r_std, a parameter that allows to delete the trajectories of presumed immune cells that do not move enough to be considered as such. If r_std is increased, less immune cells are considered.
+Concerning the cancer cells, the parameters set are: 
+7. r_tu; 8. Rmax_tu, 9. DP_tu, which are the analagous parameters of those for the immune cells defined above.
+Additionally, 10. dist_tu is a parameter that imposes to detect only the cancer cells whose centre is less than dist_tu pixels away from the centre of the ROI.
+As example, in the CausalXtract publication, the parameters used are the following:
+polarity="bright";
+r_sp=4; Rmax_sp=20; D_sp=10; L_sp=10; r_std=4
+r_tu=14; Rmax_tu=40; D_tu=70; dist_tu=30
 
 As the dynamic of your cells will likely differ from the ones used in the CausalXtract publication, there are two important parameters $\tau$ and $\delta\tau$ to tune for the causal discovery part on your data with tMIIC.
 $\tau$ is the maximum number of layers back in time used to run the causal
