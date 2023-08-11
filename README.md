@@ -51,7 +51,7 @@ This R Markdown Notebook file allows you to run the entire pipeline described in
 ## Going further
 
 To go further with CellHunter+, "the main_detection.m" file implements the "segmentation and tracking" module. Each ROI (Region of Interest) is a cropped video, obtained from the original video (reference to dataset: https://doi.org/10.5281/zenodo.7755700). The MCC (Main Cancer Cell) is placed at the centre of the crop and it is possible to observe CAFs, immune cells and other cancer cells. 
-It is possible to change the file path to the specific videos' path that the user wants to analyse.\
+It is possible to change the file path to the specific videos path that the user wants to analyse.\
 The video of the ROI, saved as .mat file, is a matrix where the third dimension represents the time, i.e. the number of frames. 
 The outputs are the trajectories of the MCC and the trajectories of the immune cells.
 An additional step, implemented in the "main_division_detection.m" file, allows to correct the "flickering" of the MCC's trajectory when it divides.
@@ -63,7 +63,7 @@ Concerning the immune cells, the parameters are:\
 2. r_sp, the theoretical radius for detecting immune cells; 
 3. Rmax_sp, the maximum distance for tracking immune cells, i.e. for linking two presumed instances of the same immune cell in two different frames to construct the trajectory of that immune cell; 
 4. DP_sp, the number of frames after which the trajectory of an immune cell is stopped if the immune cell is not detected for that specific number of frames;
-5. L_sp, the minimum length of immune cells’ trajectories that are returned as output in the tracking refining process;
+5. L_sp, the minimum length of immune cells trajectories that are returned as output in the tracking refining process;
 6. r_std, a parameter that allows to delete the trajectories of presumed immune cells that do not move enough to be considered as such. If r_std is increased, less immune cells are considered.\
 Concerning the cancer cells, the parameters are: 
 7. r_tu; 8. Rmax_tu, 9. DP_tu, which are the analagous parameters of those for the immune cells defined above.
