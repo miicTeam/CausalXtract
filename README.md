@@ -59,7 +59,7 @@ Finally, the "main_features.m" file implements the "feature extraction" module, 
 \
 As the dimensions of your cells will likely be different from the ones used in the CausalXtract publication, you may need to modify the parameters in the "parameters_CellHunterPlus.csv" file.
 1. The first parameter, "polarity", must be set to "bright" if bright cells are identified in a dark background. Otherwise, it must be set to "dark".\
-Concerning the immune cells, the parameters are:\
+Concerning the immune cells, the parameters are:
 2. r_sp, the theoretical radius for detecting immune cells; 
 3. Rmax_sp, the maximum distance for tracking immune cells, i.e. for linking two presumed instances of the same immune cell in two different frames to construct the trajectory of that immune cell; 
 4. DP_sp, the number of frames after which the trajectory of an immune cell is stopped if the immune cell is not detected for that specific number of frames;
@@ -73,55 +73,41 @@ polarity="bright";
 r_sp=4; Rmax_sp=20; D_sp=10; L_sp=10; r_std=4
 r_tu=14; Rmax_tu=40; D_tu=70; dist_tu=30
 
-As the dynamic of your cells will likely differ from the ones used in the CausalXtract publication, there are two important parameters $\tau$ and $\delta\tau$ to tune for the causal discovery part on your data with tMIIC.
-$\tau$ is the maximum number of layers back in time used to run the causal
-discovery and $\delta\tau$ (1 by default) represents the number of timesteps between each layer.\
-\
-A possible way is to determine the $\tau$ parameter as follow:
-- determine $L$, the minimum length of all the trajectories
-- compute autocorrelation $acf_{t,v}$ for each trajectory $t$ and variable $v$ 
-  over a maximum of $L$ time steps back in time\
-- look for each trajectory and variable when the auto-correlation vanishes, retain half of the vanishing time to pick up the auto-correlation and compute the $\alpha_{t,v}$\
-\
-$l_{t,v} = \lfloor \frac{min\ (l\ |\ acf_{t,v}[l]\ <\ 0.05)}{2} \rceil$ \
-$\alpha_{t,v} = acf_{t,v}[l_{t,v}]^{\frac{1}{l_{t,v}}}$ \
-\
-The $\alpha_{t,v}$ are averaged over the $T$ trajectories and $V$ variables and the mean is used to determine the $\tau$ parameter as twice the relaxation time in order to be sure to cover the complete dynamic of the system.
-\
-$\overline{\alpha} = \frac{\sum_{t=1}^{T} \sum_{v=1}^{V} \alpha_{t,v}}{T\ *\ V}$ \
-$\tau = \lfloor 2 * \frac{1\ +\ \overline{\alpha}}{1\ -\ \overline{\alpha}}\rceil$ \
-If the $\tau$ parameter leads to too much nodes in the time lagged graph, 
-you can increase the $\delta\tau$ parameter and reduce the $\tau$ so that $\tau_{initial} \simeq \tau_{final} * \delta\tau_{final}$. 
-As example, in the CausalXtract publication, the parameters used were 
-$\tau=11$ and $\delta\tau=5$ resulting in 182 nodes in the inferred graph, still 
-achievable on a recent computer.
+Even if the dynamic of your cells will likely differ from the one in the CausalXtract publication, the causal discovery part tMIIC includes an automatic estimation of the temporal dynamic and will adapt accordingly.
 
-You can find more information one the causal discovery module by calling the documentation of the main function `?miic` from R.
-
-Example of tMIIC on a toy dataset:
+To perform a first try on the features extracted by CellHunter+, the minimal parameters of tMIIC are:
 ```R
-library(miic)
-
-# EXAMPLE: TOY MODEL COVIDCASES
-data(covidCases)
-# execute tMIIC
-# supplying the tau parameter with a value >= 1 switches miic into temporal mode 
-# here, we perform a temporal causal discovery with 2 time steps back in history 
-tmiic.res <- miic(input_data = covidCases, tau = 2)
-
-# to plot the default graph (compact)
-if(require(igraph)) {
- plot(tmiic.res)
-}
-# to plot the full temporal network
-if(require(igraph)) {
-  plot(tmiic.res, display="lagged")
-}
+miic_res <- miic(input_data=dataframe_features, mode="TS")
 ```
+It will produce a final (lagged) graph with only 50 nodes by default in order to run quickly, so you can have a first look on the result of tMIIC:
+```R
+# default compact plot
+plot(miic_res)
+# lagged plot
+plot(miic_res, display="lagged")
+```
+
+To go even further, tMIIC has several parameters useful to know:
+- max_nodes: can be used to increase (or decrease) the maximum number of nodes
+in the lagged graph. tMIIC uses this parameter, once the temporal dynamic has been estimated, to compute the number of layers and the number of time steps between the layers in a way that covers the dynamic. The more nodes you allow in the final graph, the more time tMIIC will need to perform the discovery, but more precise or complete will be the discovery: more layers and/or smaller number of time steps between each layer. On recent computers or servers, values up to 200 or 300 are possible (depending on the number of time steps in your dataset). 
+n_layers and delta_t: you can specify your own parameters for the number of layers and the number of time steps between layers. In such case, tMIIC will not perform the automatic dynamic estimation and will use the provided parameters instead. 
+- state_order: the state_order is an optional data frame that can be used to specify extra characteristics per variable. The information that you are the more likely to be interested to supply are var_names, levels_increasing_order and is_contextual.
+  * var_names: mandatory, is the name of the variables in the input dataset
+  * levels_increasing_order: optional, can be used to specify an order for the discrete variables. A typical example is for logical variables as "Treatment", where we can add 0,1 as levels_increasing_order to display colored edges highlighting the negative and positive correlations with "Treatment".
+  * is_contextual: optional, is frequently used for experimental conditions, that are set up from the start of each experiment and don't change over time. Values can be 0 or 1, where 0 is a normal variable and 1 indicates a contextual one. Variables defined as contextual can not be the consequence of any other variables in the dataset.
+
+To have an example on how to set up a state_order, you can have a look on the one used in the CausalXtract publicaton that is in the demo folder: **CausalXtract_Publication_State_Order.tsv**. 
+  
+More information about the tMIIC parameters is also available by calling the documentation of the miic R package.
 
 ## Documentation
 
-You can find the documentation pages in the "help" folder of the tMIIC module, or use the R functions `help()` and `?`.
+You can find the documentation pages about the tMIIC module by using the R functions `help()` and `?`.
+
+'''R
+help(miic)
+?miic()
+'''
 
 ## Authors
 - Franck Simon
