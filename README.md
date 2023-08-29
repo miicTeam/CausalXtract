@@ -53,7 +53,7 @@ This R Markdown Notebook file allows you to run the entire pipeline described in
 To go further with CellHunter+, the "main_detection.m" file implements the "segmentation and tracking" module. Each ROI (Region of Interest) is a cropped video, obtained from the original video (reference to dataset: https://doi.org/10.5281/zenodo.7755700). The MCC (Main Cancer Cell) is placed at the centre of the crop and it is possible to observe CAFs, immune cells and other cancer cells. It is possible to change the file path to the specific videos path that the user wants to analyse.  
 The video of the ROI, saved as .mat file, is a matrix where the third dimension represents the time, i.e. the number of frames. The outputs are the trajectories of the MCC and the trajectories of the immune cells. An additional step, implemented in the "main_division_detection.m" file, allows to correct the "flickering" of the MCC's trajectory when it divides. Finally, the "main_features.m" file implements the "feature extraction" module, in which the trajectories of the MCC and those of the immune cells are used to compute the features of interest for each ROI.  
 As the dimensions of your cells will likely be different from the ones used in the CausalXtract publication, you may need to modify the parameters in the "parameters_CellHunterPlus.csv" file.  
-1. The first parameter, `polarity`, must be set to "bright" if bright cells are identified in a dark background. Otherwise, it must be set to "dark".
+1. The first parameter, `polarity`, must be set to "bright" if bright cells are identified in a dark background. Otherwise, it must be set to "dark".  
 Concerning the immune cells, the parameters are:  
 2. `r_sp`, the theoretical radius for detecting immune cells;  
 3. `Rmax_sp`, the maximum distance for tracking immune cells, i.e. for linking two presumed instances of the same immune cell in two different frames to construct the trajectory of that immune cell;  
@@ -62,7 +62,8 @@ Concerning the immune cells, the parameters are:
 6. `r_std`, a parameter that allows to delete the trajectories of presumed immune cells that do not move enough to be considered as such. If `r_std` is increased, less immune cells are considered.  
 Concerning the cancer cells, the parameters are:  
 7. `r_tu`; 8. `Rmax_tu`, 9. `DP_tu`, which are the analagous parameters of those for the immune cells defined above.  
-Additionally, 10. `dist_tu` is a parameter that imposes to detect only the cancer cells whose centre is less than `dist_tu` pixels away from the centre of the ROI.  
+Additionally, 10. `dist_tu` is a parameter that imposes to detect only the cancer cells whose centre is less than `dist_tu` pixels away from the centre of the ROI.
+
 As example, in the CausalXtract publication, the parameters used are the following:  
 `polarity="bright"; r_sp=4; Rmax_sp=20; D_sp=10; L_sp=10; r_std=4; r_tu=14; Rmax_tu=40; D_tu=70; dist_tu=30`
 
@@ -93,7 +94,7 @@ in the lagged graph.  Once tMIIC has estimated the temporal dynamic, the `max_no
   + `var_names`: mandatory, this is the name of the variables in the input dataset.  
   + `levels_increasing_order`: optional, can be used to specify an order for the discrete variables. A typical example is for logical variables as "Treatment", where we can add a string `0,1` as `levels_increasing_order` to display colored edges highlighting the negative and positive correlations with "Treatment".  
   + `is_contextual`: optional, is frequently used for experimental conditions, that are set up from the start of each experiment and don't change over time. Values can be 0 or 1, where 0 is a normal variable and 1 indicates a contextual one. Variables defined as contextual can not be the consequence of any other variables in the dataset.  
-  To have an example on how to set up a `state_order`, you can have a look on the one used in the CausalXtract publication in the Demo folder: **CausalXtract_Publication_State_Order.tsv**.
+To have an example on how to set up a `state_order`, you can have a look on the one used in the CausalXtract publication in the Demo folder: **CausalXtract_Publication_State_Order.csv**.
 
 More information about the tMIIC parameters is also available by calling the documentation of the MIIC R package.
 
