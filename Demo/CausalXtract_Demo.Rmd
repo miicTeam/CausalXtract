@@ -11,14 +11,13 @@ Please make sure you were located in the Demo folder when opening this Causal_Xt
 
 Before executing this demo, please ensure that the following prerequisites are met:
 
--   **Matlab** is installed with the additional toolboxes **"Image Processing Toolbox"** and **"Statistics and Machine Learning Toolbox"**. (needed for the CellHunter+ module)\
-    Note that you can skip the CellHunter+ part if you don't have Matlab\
--   **R** and **C++14** are installed (needed for the causal discovery module)\
--   the **CausalXtract github repository** has been replicated locally\
-    You can replicate the CausalXtract repository with the command\
+-   **Matlab** is installed with the additional toolboxes **"Image Processing Toolbox"** and **"Statistics and Machine Learning Toolbox"** (needed for the CellHunter+ module).\
+    Note that you can skip the CellHunter+ part if you don't have Matlab.\
+-   **R** and **C++14** are installed (needed for the causal discovery module).\
+-   the **CausalXtract github repository** has been replicated locally.\
+    You can replicate the CausalXtract repository with the command:\
     *git clone <https://github.com/miicTeam/CausalXtract.git>*\
--   the **MATLAB DATA.rar** file from [*https://doi.org/10.5281/zenodo.7755700*](https://doi.org/10.5281/zenodo.7755700){.uri} has been downloaded\
-    and extracted in the **CausalXtract/MATLAB DATA** folder
+-   the **MATLAB_DATA.rar** file from [*https://doi.org/10.5281/zenodo.7755700*](https://doi.org/10.5281/zenodo.7755700){.uri} has been downloaded and extracted in the **CausalXtract/MATLAB_DATA** folder. The **ROI MAT.rar** and **ROI_TU MAT.rar** files have to be extracted as well inside the MATLAB_DATA folder.
 
 Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*.
 
@@ -33,8 +32,8 @@ if ( ! (  dir.exists ("../CellHunterPlus")
        && dir.exists ("../Demo")
        && dir.exists ("../tMIIC") ) ) 
   stop ("CausalXtract repository not found")
-if ( ! dir.exists ("../MATLAB DATA") )
-  warning ("MATLAB data not found (but you can skip this part)\n")
+if ( ! dir.exists ("../MATLAB_DATA") )
+  warning ("MATLAB_data not found (but you can skip this part)\n")
 cat ("Prerequisites checked\n")
 ```
 
@@ -62,8 +61,11 @@ Here, we execute the CellHunter+ module to perform segmentation & tracking, foll
 You can skip this part if you don't have Matlab.
 
 ```{r}
-cat ("CellHunterPlus module\n")
-system("matlab -r \"run('./CausalXtract_CellHunterPlus_Demo_Part.m'); exit\"")
+cat ("CellHunter+ module\n")
+system("matlab -r \"run('../CellHunterPlus/main_detection.m');
+run('../CellHunterPlus/main_division_detection.m'); 
+run('../CellHunterPlus/main_features.m');
+exit\"")
 ```
 
 Once the features have been extracted, we can run the temporal causal discovery\
@@ -71,10 +73,10 @@ Once the features have been extracted, we can run the temporal causal discovery\
 
 ```{r}
 library (miic)
-data <- read.table ("./CausalXtract_Publication_Dataset.tsv", 
-                    sep="\t", header=T)
-so <- read.table ("./CausalXtract_publication_State_Order.tsv", 
-                    sep="\t", header=T)
+data <- read.table ("./CausalXtract_Publication_Dataset.csv", 
+                    sep=",", header=T)
+so <- read.table ("./CausalXtract_Publication_State_Order.csv", 
+                    sep=",", header=T)
 # tmiic_res <- miic (input_data=data, state_order=so, 
 #                    mode="TS", max_nodes=200,
 #                    n_shuffles = 100, conf_threshold=0.01, 
