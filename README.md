@@ -52,7 +52,7 @@ This R Markdown Notebook file allows you to run the entire pipeline described in
 
 To go further with CellHunter+, the "main_detection.m" file implements the "segmentation and tracking" module. Each ROI (Region of Interest) is a cropped video, obtained from the original video (reference to dataset: https://doi.org/10.5281/zenodo.7755700). The MCC (Main Cancer Cell) is placed at the centre of the crop and it is possible to observe CAFs, immune cells and other cancer cells. It is possible to change the file path to the specific videos path that the user wants to analyse.  
 The video of the ROI, saved as .mat file, is a matrix where the third dimension represents the time, i.e. the number of frames. The outputs are the trajectories of the MCC and the trajectories of the immune cells. An additional step, implemented in the "main_division_detection.m" file, allows to correct the "flickering" of the MCC's trajectory when it divides. Finally, the "main_features.m" file implements the "feature extraction" module, in which the trajectories of the MCC and those of the immune cells are used to compute the features of interest for each ROI.  
-As the dimensions of your cells will likely be different from the ones used in the CausalXtract publication, you may need to modify the parameters in the "parameters_CellHunterPlus.csv" file (in the MATLAB_DATA folder).  
+As the dimensions of your cells will likely be different from the ones used in the CausalXtract publication, you may need to modify the parameters in the "parameters_CellHunterPlus.csv" file.  
 1. The parameter `polarity` must be set to "bright" if bright cells are identified in a dark background. Otherwise, it must be set to "dark".  
 2. The parameter `flag_imm` must be set to 1 if you want to consider the presence of immune cells, otherwise it must be set to 0.  
 3. `r_tu` is the theoretical radius for detecting cancer cells, in pixels.  
@@ -68,8 +68,8 @@ As the dimensions of your cells will likely be different from the ones used in t
 As example, in the CausalXtract publication, the parameters used are the following:  
 `polarity="bright"; flag_imm=1; r_tu=14; Rmax_tu=40; DP_tu=70; dist_tu=30; r_sp=4; Rmax_sp=20; DP_sp=10; L_sp=10; r_std=4`
 
-Moreover, modify the "state_data.csv" file (in the MATLAB_DATA folder) with your experimental conditions. The first column "IDExp" stores the file name of the roi and the second column "ID_frame" stores the number of frame. If you do not have one condition among "CAF_presence", "treatment", "apoptosis" and "division", you have to delete the corresponding column in the file.  
-If you want to run the track correction for division, update the cell information about division in the "global_division.csv" file (in the MATLAB_DATA folder). The first column "IDExp" stores the file name of the roi, the second column "global_division" stores whether the cell undergoes division and the third column "frame_division" stores the number of frame in which division happens.  
+Moreover, modify the "state_data.csv" file with your experimental conditions. The first column "IDExp" stores the file name of the roi and the second column "ID_frame" stores the number of frame. If you do not have one condition among "CAF_presence", "treatment", "apoptosis" and "division", you have to delete the corresponding column in the file.  
+If you want to run the track correction for division, update the cell information about division in the "global_division.csv" file. The first column "IDExp" stores the file name of the roi, the second column "global_division" stores whether the cell undergoes division and the third column "frame_division" stores the number of frame in which division happens.  
 
 Even if the dynamic of your cells will likely differ from the one in the CausalXtract publication, the causal discovery part tMIIC includes an automatic estimation of the temporal dynamic and will adapt accordingly.
 
