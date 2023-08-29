@@ -1,0 +1,18 @@
+var_names,is_contextual,levels_increasing_order,group,group_color
+CAF_presence,1,"0,1",experimental conditions,FF6600
+treatment,1,"0,1",experimental conditions,FF6600
+apoptosis,0,"0,1",cancer cells,D0D0D0
+division,0,"0,1",cancer cells,D0D0D0
+area,0,,cancer cells,D0D0D0
+instantaneous_cancer_velocity,0,,cancer cells,D0D0D0
+instantaneous_shape_change,0,,cancer cells,D0D0D0
+perimeter,0,,cancer cells,D0D0D0
+eccentricity,0,,cancer cells,D0D0D0
+circularity,0,,cancer cells,D0D0D0
+net_displacement,0,,cancer cells,D0D0D0
+directionality,0,,cancer cells,D0D0D0
+number_of_cancer_immune_interactions_r2,0,,immune cells,00FF21
+minimal_cancer_immune_distance_r2,0,,immune cells,00FF21
+mean_immune_velocity_r2,0,,immune cells,00FF21
+mean_immune_velocity_r1,0,,immune cells,00FF21
+number_of_cancer_immune_interactions_r1,0,,immune cells,00FF21
