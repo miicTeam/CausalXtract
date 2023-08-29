@@ -11,8 +11,8 @@ Please make sure you were located in the Demo folder when opening this Causal_Xt
 
 Before executing this demo, please ensure that the following prerequisites are met:
 
--   **Matlab** is installed with the additional toolboxes **"Image Processing Toolbox"** and **"Statistics and Machine Learning Toolbox"**. (needed for the CellHunterPlus module)\
-    Note that you can skip the CellHunterPlus part if you don't have Matlab\
+-   **Matlab** is installed with the additional toolboxes **"Image Processing Toolbox"** and **"Statistics and Machine Learning Toolbox"**. (needed for the CellHunter+ module)\
+    Note that you can skip the CellHunter+ part if you don't have Matlab\
 -   **R** and **C++14** are installed (needed for the causal discovery module)\
 -   the **CausalXtract github repository** has been replicated locally\
     You can replicate the CausalXtract repository with the command\
@@ -34,7 +34,7 @@ if ( ! (  dir.exists ("../CellHunterPlus")
        && dir.exists ("../tMIIC") ) ) 
   stop ("CausalXtract repository not found")
 if ( ! dir.exists ("../MATLAB DATA") )
-  stop ("MATLAB data not found")
+  warning ("MATLAB data not found (but you can skip this part)\n")
 cat ("Prerequisites checked\n")
 ```
 
@@ -57,14 +57,13 @@ if  (  ( ! ("miic" %in% installed.packages()) )
 cat ("End of R packages check/installation\n")
 ```
 
-Here, we execute the CellHunterPlus module to perform segmentation & tracking, followed by the feature extraction part.\
+Here, we execute the CellHunter+ module to perform segmentation & tracking, followed by the feature extraction part.\
 (could take some time depending on your hardware !)\
 You can skip this part if you don't have Matlab.
 
 ```{r}
 cat ("CellHunterPlus module\n")
 system("matlab -r \"run('./CausalXtract_CellHunterPlus_Demo_Part.m'); exit\"")
-
 ```
 
 Once the features have been extracted, we can run the temporal causal discovery\
@@ -76,10 +75,12 @@ data <- read.table ("./CausalXtract_Publication_Dataset.tsv",
                     sep="\t", header=T)
 so <- read.table ("./CausalXtract_publication_State_Order.tsv", 
                     sep="\t", header=T)
-# res <- miic (input_data=data, state_order=so, tau=11, delta_tau=5,
-#              latent="orientation", n_shuffles = 100, conf_threshold=0.01,
-#              ori_proba_ratio=0.01, n_threads=8)
-res <- miic (covidCases, tau=2, movavg=7, n_threads=8)
+# tmiic_res <- miic (input_data=data, state_order=so, 
+#                    mode="TS", max_nodes=200,
+#                    n_shuffles = 100, conf_threshold=0.01, 
+#                    ori_proba_ratio=0.01, n_threads=8)
+tmiic_res <- miic (covidCases, mode="TS", n_layers=3, delta_t=1, 
+                   movavg=7, n_threads=8)
 ```
 
 Plotting is available with several displays:
@@ -87,9 +88,9 @@ Plotting is available with several displays:
 ```{r}
 if  ( ! ("igraph" %in% installed.packages()) )
   install.packages ("igraph") 
-plot (res)
-plot (res, display="raw")
-plot (res, display="lagged")
+plot (tmiic_res)
+plot (tmiic_res, display="raw")
+plot (tmiic_res, display="lagged")
 ```
 
-An alternate way to execute the causal discovery module is to use the online server at <https://miic.curie.fr/workbench_timeseries.php>, providing the same parameters and inputs: dataset file, state_order file, tau=11, delta_tau=5, activate the skeleton cut with number of shufflings=100 + confidence cut=0.01 and orientation confidence cut=0.01.
+An alternate way to execute the causal discovery module is to use the online server at <https://miic.curie.fr/workbench_timeseries.php>, providing the same parameters and inputs: dataset file, state_order file, activate the temporal mode, set the maximum number of nodes to 200, activate the skeleton cut by setting the number of shuffles to 100 and confidence cut to 0.01, then set orientation confidence cut to 0.01.

@@ -77,37 +77,42 @@ Even if the dynamic of your cells will likely differ from the one in the CausalX
 
 To perform a first try on the features extracted by CellHunter+, the minimal parameters of tMIIC are:
 ```R
-miic_res <- miic(input_data=dataframe_features, mode="TS")
+tmiic_res <- miic(input_data=dataframe_features, mode="TS")
 ```
-It will produce a final (lagged) graph with only 50 nodes by default in order to run quickly, so you can have a first look on the result of tMIIC:
+It will produce a lagged graph with only 50 nodes by default in order to run quickly, so you can have a first look on the result of tMIIC:
 ```R
-# default compact plot
-plot(miic_res)
-# lagged plot
-plot(miic_res, display="lagged")
+# default plot (compact view)
+plot(tmiic_res)
+# raw plot (the output of tMIIC)
+plot(tmiic_res, display="raw")
+# lagged plot (the full lagged graph completed by stationarity)
+plot(tmiic_res, display="lagged")
 ```
 
 To go even further, tMIIC has several parameters useful to know:
 - max_nodes: can be used to increase (or decrease) the maximum number of nodes
-in the lagged graph. tMIIC uses this parameter, once the temporal dynamic has been estimated, to compute the number of layers and the number of time steps between the layers in a way that covers the dynamic. The more nodes you allow in the final graph, the more time tMIIC will need to perform the discovery, but more precise or complete will be the discovery: more layers and/or smaller number of time steps between each layer. On recent computers or servers, values up to 200 or 300 are possible (depending on the number of time steps in your dataset). 
-n_layers and delta_t: you can specify your own parameters for the number of layers and the number of time steps between layers. In such case, tMIIC will not perform the automatic dynamic estimation and will use the provided parameters instead. 
-- state_order: the state_order is an optional data frame that can be used to specify extra characteristics per variable. The information that you are the more likely to be interested to supply are var_names, levels_increasing_order and is_contextual.
-  * var_names: mandatory, is the name of the variables in the input dataset
-  * levels_increasing_order: optional, can be used to specify an order for the discrete variables. A typical example is for logical variables as "Treatment", where we can add 0,1 as levels_increasing_order to display colored edges highlighting the negative and positive correlations with "Treatment".
+in the lagged graph. tMIIC uses this parameter, once it has estimated the temporal dynamic, to compute the number of layers and the number of time steps between the layers in a way that covers the dynamic. The more nodes you allow in the final graph, the more time tMIIC will need to perform the discovery, but the more precise or complete will be the discovery by having more layers and/or less time steps between each layer. On recent computers or servers, values up to 200 or 300 are possible (depending on the number of varaibles and time steps in your dataset).\ 
+n_layers and delta_t: you can specify your own parameters for the number of layers and the number of time steps between layers. In such case, tMIIC will not perform the automatic dynamic estimation and will use the provided parameters instead.\ 
+- state_order: the state_order is an optional data frame that can be used to specify extra characteristics per variable. The information that you are the more likely to be interested in are var_names, levels_increasing_order and is_contextual.
+  * var_names: mandatory, this is the name of the variables in the input dataset\
+  * levels_increasing_order: optional, can be used to specify an order for the discrete variables. A typical example is for logical variables as "Treatment", where we can add a string "0,1" as levels_increasing_order to display colored edges highlighting the negative and positive correlations with "Treatment".\
   * is_contextual: optional, is frequently used for experimental conditions, that are set up from the start of each experiment and don't change over time. Values can be 0 or 1, where 0 is a normal variable and 1 indicates a contextual one. Variables defined as contextual can not be the consequence of any other variables in the dataset.
 
-To have an example on how to set up a state_order, you can have a look on the one used in the CausalXtract publicaton that is in the demo folder: **CausalXtract_Publication_State_Order.tsv**. 
+To have an example on how to set up a state_order, you can have a look on the one used in the CausalXtract publication in the Demo folder: **CausalXtract_Publication_State_Order.tsv**. 
   
-More information about the tMIIC parameters is also available by calling the documentation of the miic R package.
+More information about the tMIIC parameters is also available by calling the documentation of the MIIC R package.
 
 ## Documentation
 
-You can find the documentation pages about the tMIIC module by using the R functions `help()` and `?`.
+You can find the documentation pages about the tMIIC module by using the R functions `help()` or `?`.
 
-'''R
+```R
+# Package summary help
+help(package="miic")
+# Help page of the MIIC method
 help(miic)
 ?miic()
-'''
+```
 
 ## Authors
 - Franck Simon
