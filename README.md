@@ -45,7 +45,7 @@ remotes::install_github ("miicTeam/CausalXtract/tMIIC")
 
 ## Quick start
 
-A demo is available in the Demo folder: **CausalXtract_Demo.Rmd** (https://github.com/miicTeam/CausalXtract/blob/main/Demo/CausalXtract_Demo.Rmd).  
+A demo is available in the Demo folder: [**CausalXtract_Demo.Rmd**](https://github.com/miicTeam/CausalXtract/blob/main/Demo/CausalXtract_Demo.Rmd).  
 This R Markdown Notebook file allows you to run the entire pipeline described in the CausalXtract publication.
 
 ## Going further
@@ -98,7 +98,7 @@ in the lagged graph.  Once tMIIC has estimated the temporal dynamic, the `max_no
   + `var_names`: mandatory, this is the name of the variables in the input dataset.  
   + `levels_increasing_order`: optional, can be used to specify an order for the discrete variables. A typical example is for logical variables as "Treatment", where we can add a string `0,1` as `levels_increasing_order` to display colored edges highlighting the negative and positive correlations with "Treatment".  
   + `is_contextual`: optional, is frequently used for experimental conditions, that are set up from the start of each experiment and don't change over time. Values can be 0 or 1, where 0 is a normal variable and 1 indicates a contextual one. Variables defined as contextual can not be the consequence of any other variables in the dataset.  
-To have an example on how to set up a `state_order`, you can have a look on the one used in the CausalXtract publication in the Demo folder: **CausalXtract_Publication_State_Order.csv** (https://github.com/miicTeam/CausalXtract/blob/main/Demo/CausalXtract_Publication_State_Order.csv).
+To have an example on how to set up a `state_order`, you can have a look on the one used in the CausalXtract publication in the Demo folder: [**CausalXtract_Publication_State_Order.csv**](https://github.com/miicTeam/CausalXtract/blob/main/Demo/CausalXtract_Publication_State_Order.csv).
 
 More information about the tMIIC parameters is also available by calling the documentation of the MIIC R package.
 
