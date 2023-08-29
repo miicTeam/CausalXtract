@@ -68,8 +68,8 @@ As the dimensions of your cells will likely be different from the ones used in t
 As example, in the CausalXtract publication, the parameters used are the following:  
 `polarity="bright"; flag_imm=1; r_tu=14; Rmax_tu=40; DP_tu=70; dist_tu=30; r_sp=4; Rmax_sp=20; DP_sp=10; L_sp=10; r_std=4`
 
-Moreover, modify the "state_data.csv" file (in the MATLAB_DATA folder) with your experimental conditions. The first column "IDExp" stores the file name of the roi and the second column "ID_frame" stores the number of frame. If you do not have one condition among "CAF_presence", "treatment", "apoptosis" and "division", you can delete the corresponding column in the file.  
-If you want to run the track correction for division, you can update the cell information about division in the "global_division.csv" file (in the MATLAB_DATA folder). The first column "IDExp" stores the file name of the roi, the second column "global_division" stores whether the cell undergoes division and the third column "frame_division" stores the number of frame in which division happens.  
+Moreover, modify the "state_data.csv" file (in the MATLAB_DATA folder) with your experimental conditions. The first column "IDExp" stores the file name of the roi and the second column "ID_frame" stores the number of frame. If you do not have one condition among "CAF_presence", "treatment", "apoptosis" and "division", you have to delete the corresponding column in the file.  
+If you want to run the track correction for division, update the cell information about division in the "global_division.csv" file (in the MATLAB_DATA folder). The first column "IDExp" stores the file name of the roi, the second column "global_division" stores whether the cell undergoes division and the third column "frame_division" stores the number of frame in which division happens.  
 
 Even if the dynamic of your cells will likely differ from the one in the CausalXtract publication, the causal discovery part tMIIC includes an automatic estimation of the temporal dynamic and will adapt accordingly.
 
