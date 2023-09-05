@@ -1,0 +1,16 @@
+% Names of the variables.
+
+function variable_names=my_variable_names(flag_imm)
+
+variable_names={"ID_frame",...
+    "area", "instantaneous_cancer_velocity",...
+    "instantaneous_shape_change", "perimeter", "eccentricity", "circularity",...
+    "net_displacement", "directionality", "number_of_cancer_immune_interactions_r2",...
+    "minimal_cancer_immune_distance_r2", "mean_immune_velocity_r2",...
+    "mean_immune_velocity_r1", "number_of_cancer_immune_interactions_r1"};
+
+if flag_imm~=1
+    variable_names=variable_names(1:end-5);
+end
+
+end
