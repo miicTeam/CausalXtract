@@ -67,9 +67,7 @@ run('../CellHunterPlus/main_division_detection.m');
 run('../CellHunterPlus/main_features.m');
 exit\"")
 ```
-
-Once the features have been extracted, we can run the temporal causal discovery\
-(again, this could take some time depending on your hardware !)
+Once the features have been extracted, we can run the temporal causal discovery:
 
 ```{r}
 library (miic)
@@ -77,12 +75,19 @@ data <- read.table ("./CausalXtract_Publication_Dataset.csv",
                     sep=",", header=T)
 so <- read.table ("./CausalXtract_Publication_State_Order.csv", 
                     sep=",", header=T)
+# 
+# To get a graph with 50 nodes with 3 layers
+# 
+tmiic_res <- miic (input_data=data, state_order=so, mode="TS")
+#
+# To get exactly the graph of the CausalXtract publication, uncomment the following
+# code as you need to go up to 200 nodes and activate the confidence cuts.
+# Be aware that this could take some time depending on your hardware ! 
+# 
 # tmiic_res <- miic (input_data=data, state_order=so, 
 #                    mode="TS", max_nodes=200,
 #                    n_shuffles = 100, conf_threshold=0.01, 
 #                    ori_proba_ratio=0.01, n_threads=8)
-tmiic_res <- miic (covidCases, mode="TS", n_layers=3, delta_t=1, 
-                   movavg=7, n_threads=8)
 ```
 
 Plotting is available with several displays:
@@ -90,9 +95,27 @@ Plotting is available with several displays:
 ```{r}
 if  ( ! ("igraph" %in% installed.packages()) )
   install.packages ("igraph") 
-plot (tmiic_res)
+specific_layout = matrix(nrow=17, ncol=2)
+specific_layout[1,]  = c(0,10)  # CAF
+specific_layout[2,]  = c(20,20) # treatment
+specific_layout[3,]  = c(14,18) # apoptosis
+specific_layout[4,]  = c(30,10) # division
+specific_layout[5,]  = c(10,10) # area
+specific_layout[6,]  = c(30,15) # instantaneous_cancer_velocity
+specific_layout[7,]  = c(15,0)  # instantaneous_shape_change
+specific_layout[8,]  = c(19,8)  # perimeter
+specific_layout[9,]  = c(26,2)  # eccentricity
+specific_layout[10,] = c(15,4)  # circularity
+specific_layout[11,] = c(5,2)   # net_displacement
+specific_layout[12,] = c(5,16)  # directionality
+specific_layout[13,] = c(40,17) # number_of_cancer_immune_interactions_r2
+specific_layout[14,] = c(40,8)  # minimal_cancer_immune_distance_r2
+specific_layout[15,] = c(40,0)  # mean_immune_velocity_r2
+specific_layout[16,] = c(40,4)  # mean_immune_velocity_r1
+specific_layout[17,] = c(40,12) # number_of_cancer_immune_interactions_r1
+plot (tmiic_res, layout=specific_layout)
 plot (tmiic_res, display="raw")
 plot (tmiic_res, display="lagged")
 ```
 
-An alternate way to execute the causal discovery module is to use the [online server](https://miic.curie.fr/workbench_timeseries.php), providing the same parameters and inputs: dataset file, state_order file, activate the temporal mode, set the maximum number of nodes to 200, activate the skeleton cut by setting the number of shuffles to 100 and confidence cut to 0.01, then set orientation confidence cut to 0.01.
+If you are interested in more advanced plotting features, you may consider to execute the causal discovery module on the [online server](https://miic.curie.fr/workbench_timeseries.php), providing the same parameters and inputs: dataset file, state_order file, activate the temporal mode, set the maximum number of nodes to 200, activate the skeleton cut by setting the number of shuffles to 100 and confidence cut to 0.01, then set orientation confidence cut to 0.01.
