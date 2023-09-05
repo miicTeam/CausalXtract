@@ -67,6 +67,7 @@ run('../CellHunterPlus/main_division_detection.m');
 run('../CellHunterPlus/main_features.m');
 exit\"")
 ```
+
 Once the features have been extracted, we can run the temporal causal discovery:
 
 ```{r}
@@ -76,7 +77,7 @@ data <- read.table ("./CausalXtract_Publication_Dataset.csv",
 so <- read.table ("./CausalXtract_Publication_State_Order.csv", 
                     sep=",", header=T)
 # 
-# To get a graph with 50 nodes with 3 layers
+# To get a graph with 50 nodes (3 layers)
 # 
 tmiic_res <- miic (input_data=data, state_order=so, mode="TS")
 #
