@@ -1,4 +1,4 @@
-function [mean_v,max_v,min_v] = my_relative_speed_sp(p_tu2,p_sp2,r_int)
+function [mean_v,max_v,min_v] = relative_speed_sp(p_tu2,p_sp2,r_int)
 
 d_tu0=r_int;
 

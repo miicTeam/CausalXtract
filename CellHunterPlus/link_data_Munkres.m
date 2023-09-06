@@ -1,4 +1,4 @@
-function [p,q]=my_link_data_Munkres(data_sp,R0,DP)
+function [p,q]=link_data_Munkres(data_sp,R0,DP)
 
 p=[];
 q=[];

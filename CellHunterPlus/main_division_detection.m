@@ -19,7 +19,7 @@ if isfile(name_file)
 
     % extract names of files
     path_roi="../MATLAB_DATA/ROI MAT/";
-    all_names=my_files_names(path_roi);
+    all_names=get_files_names(path_roi);
     path_tum_traj="../Results/NEW TUMOR TRAJECTORIES/";
     path_name_temp="../Results/temp.mat";
     
@@ -34,7 +34,7 @@ if isfile(name_file)
             roi=roi2save;
             % correct after mitosis
             indexes=frame_division(idx):size(roi,3);
-            [final_traj]=my_track_correction(roi, path_name_temp, track_tu, indexes);
+            final_traj=track_correction(roi, path_name_temp, track_tu, indexes);
             clear track_tu;
             track_tu=final_traj;
             save(fullfile(path_tum_traj, strcat('track_tu_', n_roi, '.mat')), 'track_tu');

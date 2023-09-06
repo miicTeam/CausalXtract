@@ -8,12 +8,12 @@ clc, clear; close all;
 % cancer cells' trajectories, immune cells' trajectories, features' data
 % (computed in the "Feature Extraction" module).
 path_results="../Results";
-[path_tumor_traj, path_imm_traj, ~]=my_folder_result(...
+[path_tumor_traj, path_imm_traj, ~]=create_folder_result(...
     path_results);
 
 % get rois' names
 path_roi="../MATLAB_DATA/ROI MAT/";
-all_names=my_files_names(path_roi);
+all_names=get_files_names(path_roi);
 
 % parameters loaded from precompiled .csv file
 data = table2struct(readtable(...
@@ -30,7 +30,7 @@ for i=1:size(all_names,1)
     load(fullfile(path_roi, strcat(n_roi, '.mat')), 'roi2save'); 
     roi=roi2save;
     % segmentation and tracking
-    [track_tu, track_sp] = my_cell_Hunter_Munkres(roi, path_name_temp);
+    [track_tu, track_sp] = cell_Hunter_Munkres(roi, path_name_temp);
     % save tracks
     save(fullfile(path_tumor_traj, strcat('track_tu_', n_roi, '.mat')), 'track_tu');
     if data.flag_imm

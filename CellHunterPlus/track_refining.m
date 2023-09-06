@@ -1,4 +1,4 @@
-function [p_sp2,q_sp2]=my_track_refining(p_sp,q_sp,r_min,lmin,flag)
+function [p_sp2,q_sp2]=track_refining(p_sp,q_sp,r_min,lmin,flag)
 %% This function eliminates null data at the beginning of trajectories
 for i = 1 : length(p_sp)
     if p_sp(i).y(1)==0
@@ -31,7 +31,11 @@ q_sp2=q_sp;
 clear p_sp2;
 p_sp0=p_sp;
 for l = 1 : length(p_sp)
-        p_sp=my_refining_length(p_sp,lmin);
+        if strcmp(flag,'sp')
+            p_sp=my_red_track(p_sp,2*r_min,lmin);
+        else
+            p_sp=my_refining_length(p_sp,lmin);
+        end
 end
 p_sp2=p_sp;
 p_sp=p_sp0;

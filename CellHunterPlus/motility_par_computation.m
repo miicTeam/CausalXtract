@@ -1,4 +1,4 @@
-function [IstSpeed, StraightIndex,TotDist,NetDist]= my_motility_par_computation(track,trackt,Ml)
+function [IstSpeed, StraightIndex,TotDist,NetDist]= motility_par_computation(track,trackt,Ml)
 dist_total = 0;
 for i = 2:Ml
     vn1 = track(i,:);

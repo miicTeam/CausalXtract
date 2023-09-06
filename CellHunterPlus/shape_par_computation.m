@@ -1,4 +1,4 @@
-function [Area, Perimeter,Circularity,Eccentricity,InstChangeShape]= my_shape_par_computation(roi_tu,Nframes,m)
+function [Area, Perimeter,Circularity,Eccentricity,InstChangeShape]= shape_par_computation(roi_tu,Nframes,m)
 vidFrames_tu = roi_tu;
 i = 1;
 while i<=Nframes

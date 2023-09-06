@@ -1,4 +1,4 @@
-function [count_cell_at_frame, count_cell_until_fr,sum_cum_int,max_cum_int, min_cum_int, min_dist,max_dist,mean_dist,IDInt] = my_interaction_par_computation(p_sp2,p_tu2,r_int)
+function [count_cell_at_frame, count_cell_until_fr,sum_cum_int,max_cum_int, min_cum_int, min_dist,max_dist,mean_dist,IDInt] = interaction_par_computation(p_sp2,p_tu2,r_int)
 
 d_tu0=r_int;
 p_sp6=[p_sp2];

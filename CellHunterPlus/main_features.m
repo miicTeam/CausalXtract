@@ -12,7 +12,7 @@ path_roi="../MATLAB_DATA/ROI MAT/";
 path_roi_tu='../MATLAB_DATA/ROI_TU MAT';
 path_tum_traj="../results/NEW TUMOR TRAJECTORIES/";
 path_imm_traj="../results/NEW IMMUNE TRAJECTORIES/";
-all_names=my_files_names(path_roi);
+all_names=get_files_names(path_roi);
 
 % parameters
 load('../results/temp.mat','r_tu','r_sp', 'flag_imm');
@@ -21,15 +21,15 @@ r1 = r_tu+r_sp+2; % interaction radius r1
 
 % table where the features will be saved
 features_data=table();
-variable_names=my_variable_names(flag_imm);
+variable_names=get_variable_names(flag_imm);
 
 % analyse one roi at the time
 for i=1:size(all_names,1)
     n_roi=all_names{i};
     % choose m based on the video
-    if strcmp(dt, "20170517")
+    if contains(n_roi, "20170517")
         m=2;
-    elseif or(strcmp(dt, "20161230"), strcmp(dt, "20170105"))
+    elseif or(contains(n_roi, "20161230"), contains(n_roi, "20170105"))
         m=1;
     end
     % cropped roi and tracking results loading
@@ -43,9 +43,9 @@ for i=1:size(all_names,1)
     % track_sp stands for immune cell trajectories within the ROI under
     % study;
     if flag_imm
-        data_matrix=my_par_computation(roi_tu, m, track_tu, track_sp, r2, r1);
+        data_matrix=par_computation(roi_tu, m, track_tu, track_sp, r2, r1);
     else
-        data_matrix=my_par_computation(roi_tu, m, track_tu);
+        data_matrix=par_computation(roi_tu, m, track_tu);
     end
     data_matrix=[variable_names; data_matrix];
     % save result for the single roi

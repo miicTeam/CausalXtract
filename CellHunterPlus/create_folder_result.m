@@ -2,7 +2,7 @@
 % One folder for tumor trajectories, one for immune trajectories, one for
 % features' data (feature extraction module).
 
-function [path_tumor_traj, path_imm_traj, path_tables]=my_folder_result(...
+function [path_tumor_traj, path_imm_traj, path_tables]=create_folder_result(...
     path_results)
 path_tumor_traj=fullfile(path_results, "NEW TUMOR TRAJECTORIES");
 path_imm_traj=fullfile(path_results, "NEW IMMUNE TRAJECTORIES");

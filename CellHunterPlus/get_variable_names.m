@@ -1,6 +1,6 @@
 % Names of the variables.
 
-function variable_names=my_variable_names(flag_imm)
+function variable_names=get_variable_names(flag_imm)
 
 variable_names={"ID_frame",...
     "area", "instantaneous_cancer_velocity",...

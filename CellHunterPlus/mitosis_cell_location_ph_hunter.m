@@ -1,4 +1,4 @@
-function [data_tu]=my_mitosis_cell_location_ph_hunter(vidFrames, indexes, r_min_tu_int, polarity, dist_tu)
+function [data_tu]=mitosis_cell_location_ph_hunter(vidFrames, indexes, r_min_tu_int, polarity, dist_tu)
 
 close all
 fac=1;
