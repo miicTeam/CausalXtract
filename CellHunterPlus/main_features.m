@@ -49,7 +49,7 @@ for i=1:size(all_names,1)
     end
     data_matrix=[variable_names; data_matrix];
     % save result for the single roi
-    writecell(data_matrix, sprintf("../results/TABLES/table_%s_pos%s_%s.xlsx", dt, n_pos, n_roi)) 
+    writecell(data_matrix, fullfile("../Results/FEATURES/", strcat("Table_", n_roi, '.xlsx')));
     % create .csv file with all the rois' data
     features_data((1:(size(data_matrix,1)-1))+size(features_data,1),:)=data_matrix(2:end,:);
     clear n_roi roi2save_tu track_tu track_sp roi_tu m data_matrix;
