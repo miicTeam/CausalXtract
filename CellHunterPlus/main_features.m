@@ -63,7 +63,7 @@ file_data="./Config/state_data.csv";
 if isfile(file_data)
     original_data=readtable(file_data);
     state_data=original_data(:,3:end);
-    if ~isequal(cellfun(@(x) x(1:end-4), all_names, 'UniformOutput', false), unique(original_data.IDExp))
+    if ~isequal(all_names, unique(original_data.IDExp))
         disp("Write the state conditions in the state_data.csv file " + ...
             "following the same order used by MATLAB to upload the rois.")
         fprintf(2, '%s \n ', all_names{:})
