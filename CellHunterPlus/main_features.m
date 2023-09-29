@@ -27,9 +27,11 @@ variable_names=get_variable_names(flag_imm);
 for i=1:size(all_names,1)
     n_roi=all_names{i};
     % choose m based on the video
+    % The video "20170517" has a different resolution than the other two, "20161230" and "20170105", 
+    % m=2 compensates for that.
     if contains(n_roi, "20170517")
         m=2;
-    elseif or(contains(n_roi, "20161230"), contains(n_roi, "20170105"))
+    else
         m=1;
     end
     % cropped roi and tracking results loading

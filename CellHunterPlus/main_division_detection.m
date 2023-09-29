@@ -39,6 +39,6 @@ if isfile(name_file)
             track_tu=final_traj;
             save(fullfile(path_tum_traj, strcat('track_tu_', n_roi, '.mat')), 'track_tu');
         end
-        clear n_roi roi2save roi track_tu indexes final_traj;
+        clear idx n_roi roi2save roi track_tu indexes final_traj;
     end
 end
