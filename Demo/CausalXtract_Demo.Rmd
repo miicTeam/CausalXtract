@@ -17,7 +17,7 @@ Before executing this demo, please ensure that the following prerequisites are m
 -   the **CausalXtract github repository** has been replicated locally.\
     You can replicate the CausalXtract repository with the command:\
     *git clone <https://github.com/miicTeam/CausalXtract.git>*\
--   the **MATLAB_DATA.rar** file from [*https://doi.org/10.5281/zenodo.7755700*](https://doi.org/10.5281/zenodo.7755700){.uri} has been downloaded and extracted to obtain the **CausalXtract/MATLAB_DATA** folder. The **ROI MAT.rar** and **ROI_TU MAT.rar** files have to be extracted as well inside the MATLAB_DATA folder, obtaining the folders **CausalXtract/MATLAB_DATA/ROI MAT** and **CausalXtract/MATLAB_DATA/ROI_TU MAT**.
+-   the **MATLAB_DATA.rar** file from [*https://doi.org/10.5281/zenodo.7755699*](https://doi.org/10.5281/zenodo.7755699){.uri} has been downloaded and extracted to obtain the **CausalXtract/MATLAB_DATA** folder. The **ROI MAT.rar** and **ROI_TU MAT.rar** files have to be extracted as well inside the MATLAB_DATA folder, obtaining the folders **CausalXtract/MATLAB_DATA/ROI MAT** and **CausalXtract/MATLAB_DATA/ROI_TU MAT**.
 
 Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*.
 
